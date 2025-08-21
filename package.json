@@ -1,6 +1,6 @@
 {
   "name": "count-tokens",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple CLI tool to count tokens in files using tiktoken",
   "author": "John Lindquist",
   "license": "MIT",
