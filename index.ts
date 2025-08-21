@@ -5,26 +5,45 @@ import { program } from 'commander';
 import { get_encoding, encoding_for_model } from 'tiktoken';
 import chalk from 'chalk';
 import { resolve } from 'path';
+import clipboardy from 'clipboardy';
 
 program
   .name('count-tokens')
-  .description('Count the number of tokens in a file using tiktoken')
-  .version('1.0.0')
-  .argument('<file>', 'Path to the file to analyze')
+  .description('Count the number of tokens in a file or clipboard content using tiktoken')
+  .version('1.0.2')
+  .argument('[file]', 'Path to the file to analyze (optional if using --clipboard)')
   .option('-m, --model <model>', 'OpenAI model to use for encoding', 'gpt-4')
   .option('-e, --encoding <encoding>', 'Specific encoding to use (overrides model)')
   .option('-d, --details', 'Show detailed token information')
   .option('-c, --chunks <size>', 'Split output into chunks of specified token size', parseInt)
-  .action((file, options) => {
+  .option('--clipboard', 'Count tokens from clipboard content')
+  .action(async (file, options) => {
     try {
-      const filePath = resolve(file);
+      let content: string;
+      let source: string;
       
-      if (!existsSync(filePath)) {
-        console.error(chalk.red(`Error: File "${filePath}" does not exist`));
-        process.exit(1);
-      }
+      if (options.clipboard) {
+        content = await clipboardy.read();
+        if (!content) {
+          console.error(chalk.red('Error: Clipboard is empty'));
+          process.exit(1);
+        }
+        source = 'Clipboard';
+      } else {
+        if (!file) {
+          console.error(chalk.red('Error: Please provide a file path or use --clipboard flag'));
+          process.exit(1);
+        }
+        const filePath = resolve(file);
+        
+        if (!existsSync(filePath)) {
+          console.error(chalk.red(`Error: File "${filePath}" does not exist`));
+          process.exit(1);
+        }
 
-      const content = readFileSync(filePath, 'utf-8');
+        content = readFileSync(filePath, 'utf-8');
+        source = filePath;
+      }
       
       let encoder;
       if (options.encoding) {
@@ -48,7 +67,7 @@ program
       const tokens = encoder.encode(content);
       const tokenCount = tokens.length;
 
-      console.log(chalk.cyan('File:'), filePath);
+      console.log(chalk.cyan('Source:'), source);
       console.log(chalk.cyan('Model/Encoding:'), options.encoding || options.model);
       console.log(chalk.green('Token count:'), chalk.bold(tokenCount.toLocaleString()));
 

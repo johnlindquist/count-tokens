@@ -3,7 +3,7 @@
 [![npm version](https://badge.fury.io/js/count-tokens.svg)](https://www.npmjs.com/package/count-tokens)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A simple CLI tool to count tokens in files using OpenAI's tiktoken library.
+A simple CLI tool to count tokens in files or clipboard content using OpenAI's tiktoken library.
 
 🔗 [GitHub Repository](https://github.com/johnlindquist/count-tokens)
 
@@ -22,7 +22,7 @@ bun add -g count-tokens
 ## Usage
 
 ```bash
-count-tokens <file> [options]
+count-tokens [file] [options]
 ```
 
 ### Options
@@ -31,6 +31,7 @@ count-tokens <file> [options]
 - `-e, --encoding <encoding>` - Specific encoding to use (overrides model)
 - `-d, --details` - Show detailed token information including character count and cost estimates
 - `-c, --chunks <size>` - Split output into chunks of specified token size
+- `--clipboard` - Count tokens from clipboard content instead of a file
 - `-h, --help` - Display help
 - `-V, --version` - Display version
 
@@ -59,6 +60,33 @@ count-tokens myfile.txt --chunks 4096
 Use a specific encoding directly:
 ```bash
 count-tokens myfile.txt --encoding cl100k_base
+```
+
+### Clipboard Examples
+
+Count tokens from clipboard content:
+```bash
+count-tokens --clipboard
+```
+
+Count clipboard tokens with GPT-3.5 Turbo encoding:
+```bash
+count-tokens --clipboard --model gpt-3.5-turbo
+```
+
+Show detailed information for clipboard content:
+```bash
+count-tokens --clipboard --details
+```
+
+Copy text and immediately count tokens (macOS):
+```bash
+echo "Your text here" | pbcopy && count-tokens --clipboard
+```
+
+Copy text and immediately count tokens (Linux):
+```bash
+echo "Your text here" | xclip -selection clipboard && count-tokens --clipboard
 ```
 
 ## Supported Models

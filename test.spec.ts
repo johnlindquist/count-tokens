@@ -29,4 +29,26 @@ describe("count-tokens CLI", () => {
     expect(result.status).toBe(0);
     expect(result.stdout).toContain("Usage: count-tokens");
   });
+
+  test("should count tokens from clipboard", () => {
+    // First, put something in the clipboard
+    spawnSync("sh", ["-c", "echo 'Test clipboard content' | pbcopy"]);
+    
+    const result = spawnSync("bun", ["run", "index.ts", "--clipboard"], {
+      encoding: "utf8",
+    });
+    
+    expect(result.status).toBe(0);
+    expect(result.stdout).toContain("Source: Clipboard");
+    expect(result.stdout).toContain("Token count:");
+  });
+
+  test("should show error when no file and no clipboard flag", () => {
+    const result = spawnSync("bun", ["run", "index.ts"], {
+      encoding: "utf8",
+    });
+    
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain("Please provide a file path or use --clipboard flag");
+  });
 });

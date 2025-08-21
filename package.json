@@ -1,7 +1,7 @@
 {
   "name": "count-tokens",
-  "version": "1.0.1",
-  "description": "A simple CLI tool to count tokens in files using tiktoken",
+  "version": "1.0.2",
+  "description": "A simple CLI tool to count tokens in files or clipboard content using tiktoken",
   "author": "John Lindquist",
   "license": "MIT",
   "repository": {
@@ -14,7 +14,8 @@
     "openai",
     "gpt",
     "tokenizer",
-    "cli"
+    "cli",
+    "clipboard"
   ],
   "module": "index.ts",
   "type": "module",
@@ -26,9 +27,10 @@
     "prepublishOnly": "bun test"
   },
   "dependencies": {
-    "tiktoken": "^1.0.17",
+    "chalk": "^5.4.0",
+    "clipboardy": "^4.0.0",
     "commander": "^12.1.0",
-    "chalk": "^5.4.0"
+    "tiktoken": "^1.0.17"
   },
   "devDependencies": {
     "@types/bun": "latest",
