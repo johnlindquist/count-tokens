@@ -1,6 +1,11 @@
 # count-tokens
 
+[![npm version](https://badge.fury.io/js/count-tokens.svg)](https://www.npmjs.com/package/count-tokens)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A simple CLI tool to count tokens in files using OpenAI's tiktoken library.
+
+🔗 [GitHub Repository](https://github.com/johnlindquist/count-tokens)
 
 ## Installation
 
