@@ -1,0 +1,6 @@
+test.txt
+test.spec.ts
+*.log
+.DS_Store
+node_modules/
+bun.lockb
