@@ -3,7 +3,7 @@
 [![npm version](https://badge.fury.io/js/count-tokens.svg)](https://www.npmjs.com/package/count-tokens)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A simple CLI tool to count tokens in files or clipboard content using OpenAI's tiktoken library.
+A simple CLI tool to count tokens in files, stdin, literal text, or clipboard content using OpenAI's tiktoken library.
 
 🔗 [GitHub Repository](https://github.com/johnlindquist/count-tokens)
 
@@ -25,39 +25,67 @@ bun add -g count-tokens
 count-tokens [file] [options]
 ```
 
+* If `file` is omitted and data is being piped, stdin is used automatically.
+* Use `-` as the file name to force reading from stdin (even in an interactive terminal).
+
 ### Options
 
-- `-m, --model <model>` - OpenAI model to use for encoding (default: "gpt-4")
-- `-e, --encoding <encoding>` - Specific encoding to use (overrides model)
-- `-d, --details` - Show detailed token information including character count and cost estimates
-- `-c, --chunks <size>` - Split output into chunks of specified token size
-- `--clipboard` - Count tokens from clipboard content instead of a file
-- `-h, --help` - Display help
-- `-V, --version` - Display version
+* `-m, --model <model>` - OpenAI model to use for encoding (default: "gpt-4")
+* `-e, --encoding <encoding>` - Specific encoding to use (overrides model)
+* `-d, --details` - Show detailed token information including character count and cost estimates
+* `-c, --chunks <size>` - Split output into chunks of specified token size
+* `--clipboard` - Count tokens from clipboard content instead of a file
+* `-t, --text <text>` - Count tokens from a literal text value
+* `-h, --help` - Display help
+* `-V, --version` - Display version
 
 ### Examples
 
 Count tokens in a file using the default GPT-4 encoding:
+
 ```bash
 count-tokens myfile.txt
 ```
 
 Count tokens using GPT-3.5 Turbo encoding:
+
 ```bash
 count-tokens myfile.txt --model gpt-3.5-turbo
 ```
 
+Read directly from stdin (piped input):
+
+```bash
+echo "Your text here" | count-tokens
+cat myfile.txt | count-tokens
+```
+
+Force stdin using `-` as the file:
+
+```bash
+echo "Your text here" | count-tokens -
+```
+
+Provide text inline on the command line:
+
+```bash
+count-tokens --text "Your text here"
+```
+
 Show detailed information including cost estimates:
+
 ```bash
 count-tokens myfile.txt --details
 ```
 
 Show chunk breakdown for 4096 token chunks:
+
 ```bash
 count-tokens myfile.txt --chunks 4096
 ```
 
 Use a specific encoding directly:
+
 ```bash
 count-tokens myfile.txt --encoding cl100k_base
 ```
@@ -65,47 +93,52 @@ count-tokens myfile.txt --encoding cl100k_base
 ### Clipboard Examples
 
 Count tokens from clipboard content:
+
 ```bash
 count-tokens --clipboard
 ```
 
 Count clipboard tokens with GPT-3.5 Turbo encoding:
+
 ```bash
 count-tokens --clipboard --model gpt-3.5-turbo
 ```
 
 Show detailed information for clipboard content:
+
 ```bash
 count-tokens --clipboard --details
 ```
 
 Copy text and immediately count tokens (macOS):
+
 ```bash
 echo "Your text here" | pbcopy && count-tokens --clipboard
 ```
 
 Copy text and immediately count tokens (Linux):
+
 ```bash
 echo "Your text here" | xclip -selection clipboard && count-tokens --clipboard
 ```
 
 ## Supported Models
 
-- gpt-4, gpt-4-32k
-- gpt-3.5-turbo
-- gpt-4o, gpt-4o-mini
-- text-davinci-003
-- text-embedding-ada-002
-- And many more OpenAI models
+* gpt-4, gpt-4-32k
+* gpt-3.5-turbo
+* gpt-4o, gpt-4o-mini
+* text-davinci-003
+* text-embedding-ada-002
+* And many more OpenAI models
 
 ## Supported Encodings
 
-- gpt2
-- cl100k_base
-- o200k_base
-- p50k_base
-- p50k_edit
-- r50k_base
+* gpt2
+* cl100k_base
+* o200k_base
+* p50k_base
+* p50k_edit
+* r50k_base
 
 ## Development
 

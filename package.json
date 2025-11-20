@@ -1,7 +1,7 @@
 {
   "name": "count-tokens",
-  "version": "1.0.2",
-  "description": "A simple CLI tool to count tokens in files or clipboard content using tiktoken",
+  "version": "1.1.0",
+  "description": "A simple CLI tool to count tokens in files, stdin, literal text, or clipboard content using tiktoken",
   "author": "John Lindquist",
   "license": "MIT",
   "repository": {
