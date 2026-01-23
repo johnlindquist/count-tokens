@@ -119,7 +119,7 @@ program
         }
       }
 
-      const tokens = encoder.encode(content);
+      const tokens = encoder.encode(content, 'all');
       const tokenCount = tokens.length;
 
       console.log(chalk.cyan('Source:'), source);
